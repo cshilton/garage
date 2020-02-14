@@ -1,0 +1,89 @@
+{
+  "openapi" : "3.0.0",
+  "servers" : [ ],
+  "info" : {
+    "version" : "1.0.0",
+    "title" : "garage-door",
+    "description" : "The API Hilton Garage Door project"
+  },
+  "paths" : {
+    "/devices" : {
+      "get" : {
+        "tags" : [ "Device" ],
+        "description" : "returns all registered devices",
+        "operationId" : "getDevices",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "skip",
+          "description" : "number of records to skip",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "in" : "query",
+          "name" : "limit",
+          "description" : "max number of records to return",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "All the devices",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string",
+                    "format" : "uri",
+                    "example" : "http://10.0.0.225:8080"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Device" ],
+        "operationId" : "register",
+        "responses" : {
+          "200" : {
+            "description" : "successfully registered device"
+          }
+        },
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/GarageDoor"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "GarageDoor" : {
+        "type" : "object",
+        "description" : "A Garage Door to add",
+        "required" : [ "name", "garagedoor_id" ],
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "The garage door you wish to add"
+          },
+          "garagedoor_id" : {
+            "type" : "string",
+            "description" : "A unique Identifier for the garage door"
+          }
+        }
+      }
+    }
+  }
+}
